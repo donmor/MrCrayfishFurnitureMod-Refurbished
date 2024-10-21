@@ -1,6 +1,7 @@
 package com.mrcrayfish.furniture.refurbished.client.gui.overlay;
 
 import com.mrcrayfish.furniture.refurbished.Components;
+import com.mrcrayfish.furniture.refurbished.Config;
 import com.mrcrayfish.furniture.refurbished.client.LinkHandler;
 import com.mrcrayfish.furniture.refurbished.client.gui.widget.IconButton;
 import com.mrcrayfish.furniture.refurbished.electricity.Connection;
@@ -104,7 +105,10 @@ public class NodeIndicatorOverlay implements IHudOverlay
             BlockEntity entity = mc.level.getBlockEntity(result.getBlockPos());
             if(entity instanceof IElectricityNode node1 && !node1.isNodeInPowerableNetwork())
             {
-                this.drawLabel(mc, graphics, Components.GUI_NO_POWER, 20, 20);
+                if(!Config.SERVER.electricity.cheats.everythingIsPowered.get())
+                {
+                    this.drawLabel(mc, graphics, Components.GUI_NO_POWER, 20, 20);
+                }
             }
         }
     }
