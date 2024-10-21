@@ -6,6 +6,7 @@ import com.mrcrayfish.furniture.refurbished.electricity.ISourceNode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -72,14 +73,17 @@ public abstract class ElectricitySourceContainerBlockEntity extends Randomizable
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider)
     {
         super.loadAdditional(tag, provider);
-        this.readNodeNbt(tag);
+        if(tag.contains("Overloaded", Tag.TAG_BYTE))
+        {
+            this.overloaded = tag.getBoolean("Overloaded");
+        }
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider)
     {
         super.saveAdditional(tag, provider);
-        this.writeNodeNbt(tag);
+        tag.putBoolean("Overloaded", this.overloaded);
     }
 
     @Nullable
