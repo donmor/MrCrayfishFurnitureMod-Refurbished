@@ -176,7 +176,7 @@ public class StoveMenu extends SimpleRecipeContainerMenu<SingleRecipeInput, Oven
     @Override
     public int getGridWidth()
     {
-        return 3;
+        return 1;
     }
 
     @Override
@@ -200,7 +200,7 @@ public class StoveMenu extends SimpleRecipeContainerMenu<SingleRecipeInput, Oven
     @Override
     public boolean shouldMoveToInventory(int slot)
     {
-        return slot < this.getGridWidth() * this.getGridHeight();
+        return slot == 0 || slot == 3;
     }
 
     @Override
