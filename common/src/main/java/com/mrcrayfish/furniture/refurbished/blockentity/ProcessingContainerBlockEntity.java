@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -103,6 +104,7 @@ public abstract class ProcessingContainerBlockEntity extends BasicLootBlockEntit
     public void addEnergy(int energy)
     {
         this.energy += energy;
+        this.setChanged();
     }
 
     /**
@@ -142,6 +144,7 @@ public abstract class ProcessingContainerBlockEntity extends BasicLootBlockEntit
                     {
                         this.onConsumeEnergy(stack);
                         stack.shrink(1);
+                        this.setChanged();
                     }
                     return energy;
                 }
@@ -181,6 +184,7 @@ public abstract class ProcessingContainerBlockEntity extends BasicLootBlockEntit
         if(this.totalProcessingTime != time)
         {
             this.totalProcessingTime = time;
+            this.setChanged();
         }
         return this.totalProcessingTime;
     }
@@ -200,6 +204,10 @@ public abstract class ProcessingContainerBlockEntity extends BasicLootBlockEntit
     @Override
     public void setProcessingTime(int time)
     {
+        if(time != this.processingTime)
+        {
+            this.setChanged();
+        }
         this.processingTime = time;
     }
 
@@ -273,6 +281,7 @@ public abstract class ProcessingContainerBlockEntity extends BasicLootBlockEntit
                     if(!this.handleProcessed(copy))
                     {
                         this.pushOutput(copy);
+                        this.setChanged();
                     }
                     if(remainingItem != null)
                     {
