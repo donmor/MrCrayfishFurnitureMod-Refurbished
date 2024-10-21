@@ -139,6 +139,7 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
                 this.spaces.get(position).update(recipe.getTime(), 0, rotation);
                 this.syncCookingSpace(position);
                 this.playPlaceSound(this.spaces.get(position), false, 0.85F);
+                this.setChanged();
                 return true;
             }
         }
@@ -164,6 +165,7 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
                     fuel.setCount(1);
                     this.fuel.set(i, fuel);
                     this.syncFuel();
+                    this.setChanged();
                     return true;
                 }
             }
@@ -257,6 +259,9 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
                 this.writeCookingItems(compound, access);
                 return compound;
             });
+
+            // Mark as changed
+            this.setChanged();
         }
     }
 
@@ -272,6 +277,7 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
                 {
                     grill.remainingFuel = Services.ITEM.getBurnTime(fuel, RecipeType.SMELTING);
                     grill.fuel.set(i, ItemStack.EMPTY);
+                    grill.setChanged();
 
                     /* Send updates to client */
                     BlockEntityHelper.sendCustomUpdate(grill, (entity, access) -> {
@@ -289,6 +295,7 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
         {
             grill.cookItems();
             grill.remainingFuel--;
+            grill.setChanged();
             if(grill.remainingFuel == 0)
             {
                 /* Send updates to client */
@@ -313,8 +320,6 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
                 grill.playPlaceSound(space, true, 1.0F);
             }
         });
-
-
     }
 
     private boolean canCook()
@@ -537,10 +542,15 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public ItemStack removeItem(int index, int count)
     {
+        // Handle cooking inventory
         if(index - this.fuel.size() >= 0)
         {
             index -= this.fuel.size();
             ItemStack result = ContainerHelper.removeItem(this.cooking, index, count);
+            if(!result.isEmpty())
+            {
+                this.setChanged();
+            }
 
             if(this.cooking.get(index).isEmpty())
             {
@@ -567,7 +577,13 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
 
             return result;
         }
+
+        // Handle fuel inventory
         ItemStack result = ContainerHelper.removeItem(this.fuel, index, count);
+        if(!result.isEmpty())
+        {
+            this.setChanged();
+        }
         this.syncFuel();
         return result;
     }
@@ -613,6 +629,9 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
             this.writeFuel(compound, access);
             return compound;
         });
+
+        /* Mark as changed to ensure block is saved */
+        this.setChanged();
     }
 
     @Override
