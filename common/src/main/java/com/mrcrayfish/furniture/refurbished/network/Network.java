@@ -45,6 +45,7 @@ public class Network
             .registerPlayMessage("workbench_search_neighbours", MessageWorkbench.SearchNeighbours.class, MessageWorkbench.SearchNeighbours::encode, MessageWorkbench.SearchNeighbours::decode, MessageWorkbench.SearchNeighbours::handle, PacketFlow.SERVERBOUND)
             .registerPlayMessage("name_mailbox", MessageNameMailbox.class, MessageNameMailbox::encode, MessageNameMailbox::decode, MessageNameMailbox::handle, PacketFlow.CLIENTBOUND)
             .registerPlayMessage("withdraw_experience", MessageWithdrawExperience.class, MessageWithdrawExperience::encode, MessageWithdrawExperience::decode, MessageWithdrawExperience::handle, PacketFlow.SERVERBOUND)
+            .registerPlayMessage("show_delivery_result", MessageShowDeliveryResult.class, MessageShowDeliveryResult::encode, MessageShowDeliveryResult::decode, MessageShowDeliveryResult::handle, PacketFlow.CLIENTBOUND)
             .build();
     }
 
