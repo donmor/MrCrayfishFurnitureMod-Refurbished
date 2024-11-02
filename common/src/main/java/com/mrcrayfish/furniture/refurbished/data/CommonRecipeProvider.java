@@ -128,7 +128,7 @@ public class CommonRecipeProvider
             .unlockedBy("has_iron_nugget", this.hasItem.apply(Items.IRON_NUGGET))
             .unlockedBy("has_redstone", this.hasItem.apply(Items.REDSTONE))
             .unlockedBy("has_redstone_lamp", this.hasItem.apply(Items.REDSTONE_LAMP))
-            .save(this.consumer);
+            .save(this.output);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.CHEESE.get(), 2)
             .requires(ModItems.SEA_SALT.get())
