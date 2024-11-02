@@ -248,6 +248,11 @@ public class DeliveryService extends SavedData
         }).orElse(false);
     }
 
+    public Collection<IMailbox> getMailboxes()
+    {
+        return Collections.unmodifiableCollection(this.mailboxes.values());
+    }
+
     /**
      * Encodes the mailboxes to a FriendlyByteBuf
      */

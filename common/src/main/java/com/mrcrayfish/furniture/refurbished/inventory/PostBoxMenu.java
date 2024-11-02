@@ -1,10 +1,18 @@
 package com.mrcrayfish.furniture.refurbished.inventory;
 
+import com.mrcrayfish.framework.api.FrameworkAPI;
+import com.mrcrayfish.framework.api.menu.IMenuData;
 import com.mrcrayfish.furniture.refurbished.blockentity.PostBoxBlockEntity;
+import com.mrcrayfish.furniture.refurbished.client.ClientMailbox;
 import com.mrcrayfish.furniture.refurbished.core.ModMenuTypes;
 import com.mrcrayfish.furniture.refurbished.inventory.slot.PostBoxSlot;
 import com.mrcrayfish.furniture.refurbished.mail.DeliveryService;
 import com.mrcrayfish.furniture.refurbished.mail.IMailbox;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,6 +21,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,7 +32,7 @@ public class PostBoxMenu extends SimpleContainerMenu
 {
     protected final List<IMailbox> mailboxes = new ArrayList<>();
 
-    public PostBoxMenu(int windowId, Inventory playerInventory, List<IMailbox> mailboxes)
+    public PostBoxMenu(int windowId, Inventory playerInventory, CustomData data)
     {
         this(windowId, playerInventory, new SimpleContainer(PostBoxBlockEntity.CONTAINER_SIZE));
         this.mailboxes.addAll(mailboxes);
@@ -93,5 +102,20 @@ public class PostBoxMenu extends SimpleContainerMenu
     public List<IMailbox> getMailboxes()
     {
         return Collections.unmodifiableList(this.mailboxes);
+    }
+
+    public record CustomData(Collection<IMailbox> mailboxes) implements IMenuData<PostBoxMenu.CustomData>
+    {
+        public static final StreamCodec<RegistryFriendlyByteBuf, CustomData> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.collection(ArrayList::new, ClientMailbox.STREAM_CODEC),
+            CustomData::mailboxes,
+            CustomData::new
+        );
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, CustomData> codec()
+        {
+            return STREAM_CODEC;
+        }
     }
 }

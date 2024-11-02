@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mrcrayfish.framework.api.FrameworkAPI;
 import com.mrcrayfish.furniture.refurbished.blockentity.PostBoxBlockEntity;
 import com.mrcrayfish.furniture.refurbished.data.tag.BlockTagSupplier;
+import com.mrcrayfish.furniture.refurbished.inventory.PostBoxMenu;
 import com.mrcrayfish.furniture.refurbished.mail.DeliveryService;
 import com.mrcrayfish.furniture.refurbished.util.VoxelShapeHelper;
 import net.minecraft.core.BlockPos;
@@ -64,10 +65,9 @@ public class PostBoxBlock extends FurnitureHorizontalEntityBlock implements Bloc
     {
         if(!level.isClientSide() && level.getBlockEntity(pos) instanceof PostBoxBlockEntity postBox)
         {
-            FrameworkAPI.openMenuWithData((ServerPlayer) player, postBox, buf -> {
-                DeliveryService.get(((ServerLevel) level).getServer()).ifPresent(service -> {
-                    service.encodeMailboxes(buf);
-                });
+            // TODO test
+            DeliveryService.get(((ServerLevel) level).getServer()).ifPresent(service -> {
+                FrameworkAPI.openMenuWithData((ServerPlayer) player, postBox, new PostBoxMenu.CustomData(service.getMailboxes()));
             });
             return InteractionResult.CONSUME;
         }

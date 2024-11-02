@@ -19,9 +19,7 @@ public class ModMenuTypes
     public static final RegistryEntry<MenuType<AbstractContainerMenu>> FREEZER = RegistryEntry.menuType(Utils.resource("freezer"), Services.MENU::createFreezerMenu);
     public static final RegistryEntry<MenuType<AbstractContainerMenu>> MICROWAVE = RegistryEntry.menuType(Utils.resource("microwave"), Services.MENU::createMicrowaveMenu);
     public static final RegistryEntry<MenuType<AbstractContainerMenu>> STOVE = RegistryEntry.menuType(Utils.resource("stove"), Services.MENU::createStoveMenu);
-    public static final RegistryEntry<MenuType<PostBoxMenu>> POST_BOX = RegistryEntry.menuTypeWithData(Utils.resource("post_box"), (windowId, playerInventory, buf) -> {
-        return new PostBoxMenu(windowId, playerInventory, DeliveryService.decodeMailboxes(buf));
-    });
+    public static final RegistryEntry<MenuType<PostBoxMenu>> POST_BOX = RegistryEntry.menuTypeWithData(Utils.resource("post_box"), PostBoxMenu.CustomData.STREAM_CODEC, PostBoxMenu::new);
     public static final RegistryEntry<MenuType<ElectricityGeneratorMenu>> ELECTRICITY_GENERATOR = RegistryEntry.menuType(Utils.resource("electricity_generator"), ElectricityGeneratorMenu::new);
     public static final RegistryEntry<MenuType<RecycleBinMenu>> RECYCLE_BIN = RegistryEntry.menuType(Utils.resource("recycle_bin"), RecycleBinMenu::new);
     public static final RegistryEntry<MenuType<ComputerMenu>> COMPUTER = RegistryEntry.menuTypeWithData(Utils.resource("computer"), ComputerMenu.CustomData.STREAM_CODEC, ComputerMenu::new);

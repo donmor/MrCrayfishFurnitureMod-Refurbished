@@ -1,6 +1,8 @@
 package com.mrcrayfish.furniture.refurbished.mail;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 
 import java.util.Optional;
 import java.util.UUID;
