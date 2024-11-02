@@ -20,7 +20,6 @@ public class Network
             .registerPlayMessage("sync_fluid", MessageSyncFluid.class, MessageSyncFluid.STREAM_CODEC, MessageSyncFluid::handle, PacketFlow.CLIENTBOUND)
             .registerPlayMessage("flip_animation", MessageFlipAnimation.class, MessageFlipAnimation.STREAM_CODEC, MessageFlipAnimation::handle, PacketFlow.CLIENTBOUND)
             .registerPlayMessage("set_name", MessageSetName.class, MessageSetName.STREAM_CODEC, MessageSetName::handle, PacketFlow.SERVERBOUND)
-            .registerPlayMessage("update_mailboxes", MessageUpdateMailboxes.class, MessageUpdateMailboxes.STREAM_CODEC, MessageUpdateMailboxes::handle, PacketFlow.CLIENTBOUND)
             .registerPlayMessage("send_package", MessageSendPackage.class, MessageSendPackage.STREAM_CODEC, MessageSendPackage::handle, PacketFlow.SERVERBOUND)
             .registerPlayMessage("clear_message", MessageClearMessage.class, MessageClearMessage.STREAM_CODEC, MessageClearMessage::handle, PacketFlow.CLIENTBOUND)
             .registerPlayMessage("doorbell_notification", MessageDoorbellNotification.class, MessageDoorbellNotification.STREAM_CODEC, MessageDoorbellNotification::handle, PacketFlow.CLIENTBOUND)
