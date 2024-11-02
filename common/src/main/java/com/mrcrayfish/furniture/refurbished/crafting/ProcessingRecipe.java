@@ -42,7 +42,6 @@ public abstract class ProcessingRecipe implements Recipe<Container>
 
     protected ProcessingRecipe(RecipeType<?> type, ResourceLocation id, Category category, Ingredient ingredient, ItemStack result, int time)
     {
-
         this.type = type;
         this.id = id;
         this.category = category;
