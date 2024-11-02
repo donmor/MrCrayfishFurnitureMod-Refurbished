@@ -3,6 +3,7 @@ package com.mrcrayfish.furniture.refurbished.block;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
+import com.mrcrayfish.framework.api.FrameworkAPI;
 import com.mrcrayfish.furniture.refurbished.blockentity.PostBoxBlockEntity;
 import com.mrcrayfish.furniture.refurbished.data.tag.BlockTagSupplier;
 import com.mrcrayfish.furniture.refurbished.mail.DeliveryService;
@@ -63,8 +64,11 @@ public class PostBoxBlock extends FurnitureHorizontalEntityBlock implements Bloc
     {
         if(!level.isClientSide() && level.getBlockEntity(pos) instanceof PostBoxBlockEntity postBox)
         {
-            DeliveryService.get(((ServerLevel) level).getServer()).ifPresent(service -> service.sendMailboxesToPlayer((ServerPlayer) player));
-            player.openMenu(postBox);
+            FrameworkAPI.openMenuWithData((ServerPlayer) player, postBox, buf -> {
+                DeliveryService.get(((ServerLevel) level).getServer()).ifPresent(service -> {
+                    service.encodeMailboxes(buf);
+                });
+            });
             return InteractionResult.CONSUME;
         }
         return InteractionResult.SUCCESS;
