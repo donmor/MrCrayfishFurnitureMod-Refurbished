@@ -47,14 +47,13 @@ public class BlockEntityHelper
             {
                 CompoundTag slot = new CompoundTag();
                 slot.putByte("Slot", (byte) i);
-                stack.save(provider);
-                list.add(slot);
+                list.add(stack.save(provider, slot));
             }
         }
         tag.put(key, list);
     }
 
-    public static void loadItems(String key, CompoundTag tag, NonNullList<ItemStack> items)
+    public static void loadItems(String key, HolderLookup.Provider provider, CompoundTag tag, NonNullList<ItemStack> items)
     {
         items.clear();
         if(tag.contains(key, Tag.TAG_LIST))
@@ -68,8 +67,7 @@ public class BlockEntityHelper
                     int index = slot.getByte("Slot");
                     if(index >= 0 && index < items.size())
                     {
-                        //ItemStack stack = ItemStack.(slot);
-                        //items.set(index, stack);
+                        items.set(index, ItemStack.parseOptional(provider, slot));
                     }
                 }
             });

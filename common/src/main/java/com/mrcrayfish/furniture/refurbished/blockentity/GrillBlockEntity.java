@@ -654,12 +654,12 @@ public class GrillBlockEntity extends BlockEntity implements WorldlyContainer
         if(tag.contains("Grill", Tag.TAG_LIST))
         {
             this.cooking.clear();
-            BlockEntityHelper.loadItems("Grill", tag, this.cooking);
+            BlockEntityHelper.loadItems("Grill", provider, tag, this.cooking);
         }
         if(tag.contains("Fuel", Tag.TAG_LIST))
         {
             this.fuel.clear();
-            BlockEntityHelper.loadItems("Fuel", tag, this.fuel);
+            BlockEntityHelper.loadItems("Fuel", provider, tag, this.fuel);
         }
         if(tag.contains("RemainingFuel", Tag.TAG_INT))
         {
