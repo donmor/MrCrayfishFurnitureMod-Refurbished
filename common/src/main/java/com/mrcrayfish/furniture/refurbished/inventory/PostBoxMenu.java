@@ -35,7 +35,7 @@ public class PostBoxMenu extends SimpleContainerMenu
     public PostBoxMenu(int windowId, Inventory playerInventory, CustomData data)
     {
         this(windowId, playerInventory, new SimpleContainer(PostBoxBlockEntity.CONTAINER_SIZE));
-        this.mailboxes.addAll(mailboxes);
+        this.mailboxes.addAll(data.mailboxes());
     }
 
     public PostBoxMenu(int windowId, Inventory playerInventory, Container container)
